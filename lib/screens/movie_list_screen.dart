@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:myauthapp/screens/login_screen.dart';
 import 'package:myauthapp/screens/search_screen.dart';
 import 'package:myauthapp/screens/view_movie_screen.dart';
 import 'package:myauthapp/utilities/general_utilities.dart';
@@ -18,9 +19,19 @@ class MovieListScreen extends StatefulWidget {
 }
 
 class _MovieListScreenState extends State<MovieListScreen> {
-  @override
-  void initState() {
-    super.initState();
+  void signoutUser() {
+    try {
+      FirebaseAuth.instance.signOut();
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => LoginScreen(),
+        ),
+      );
+    } catch (e) {
+      print(e);
+    }
   }
 
   Future<List<dynamic>> getMoviesData() async {
@@ -94,7 +105,7 @@ class _MovieListScreenState extends State<MovieListScreen> {
                 ),
                 IconButton(
                   onPressed: () {
-                    FirebaseAuth.instance.signOut();
+                    signoutUser();
                   },
                   icon: const Icon(
                     Icons.logout,

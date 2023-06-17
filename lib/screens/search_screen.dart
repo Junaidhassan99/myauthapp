@@ -85,11 +85,11 @@ class _SearchScreenState extends State<SearchScreen> {
                           height: 250,
                           width: 150,
                           fit: BoxFit.cover,
-                          placeholder: (context, url) => Center(
+                          placeholder: (context, url) => const Center(
                             child: CircularProgressIndicator(),
                           ),
                           errorWidget: (context, url, error) =>
-                              Icon(Icons.error),
+                              const Icon(Icons.error),
                           imageUrl: ApiUtilities.getNetworkImageCompletePath(
                             filteredData[index].backdropImagePath,
                           ),

@@ -41,9 +41,9 @@ class CowlarApp extends StatelessWidget {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return MovieListScreen();
+            return const MovieListScreen();
           } else {
-            return LoginScreen();
+            return const LoginScreen();
           }
         },
       ),

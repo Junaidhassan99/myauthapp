@@ -2,8 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:myauthapp/screens/signup_screen.dart';
 import 'package:flutter/material.dart';
 
+import 'movie_list_screen.dart';
+
 class LoginScreen extends StatefulWidget {
-  LoginScreen({super.key});
+  const LoginScreen({super.key});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -14,8 +16,19 @@ class _LoginScreenState extends State<LoginScreen> {
   String password = "";
 
   void loginUser() async {
-    UserCredential userCredential = await FirebaseAuth.instance
-        .signInWithEmailAndPassword(email: userEmail, password: password);
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: userEmail, password: password);
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const MovieListScreen(),
+        ),
+      );
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
@@ -39,21 +52,21 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Text(
+                    const Text(
                       'Login!',
                       style:
                           TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                     ),
                     TextField(
                       keyboardType: TextInputType.emailAddress,
-                      decoration: new InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'User Email',
                       ),
                       onChanged: (value) => userEmail = value,
                     ),
                     TextField(
                       keyboardType: TextInputType.visiblePassword,
-                      decoration: new InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Password',
                       ),
                       onChanged: (value) => password = value,
@@ -73,8 +86,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         },
                         child: Container(
                           width: 100,
-                          child: Center(
-                            child: const Text('Login'),
+                          child: const Center(
+                            child: Text('Login'),
                           ),
                         ),
                       ),

@@ -1,9 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:myauthapp/screens/login_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:myauthapp/screens/movie_list_screen.dart';
 
 class SignupScreen extends StatefulWidget {
-  SignupScreen({super.key});
+  const SignupScreen({super.key});
 
   @override
   State<SignupScreen> createState() => _SignupScreenState();
@@ -15,8 +16,19 @@ class _SignupScreenState extends State<SignupScreen> {
   String retypePassword = "";
 
   void signupUser() async {
-    UserCredential userCredential = await FirebaseAuth.instance
-        .createUserWithEmailAndPassword(email: userEmail, password: password);
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: userEmail, password: password);
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => MovieListScreen(),
+        ),
+      );
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
@@ -40,28 +52,28 @@ class _SignupScreenState extends State<SignupScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Text(
+                    const Text(
                       'Signup!',
                       style:
                           TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                     ),
                     TextField(
                       keyboardType: TextInputType.emailAddress,
-                      decoration: new InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'User Email',
                       ),
                       onChanged: (value) => userEmail = value,
                     ),
                     TextField(
                       keyboardType: TextInputType.visiblePassword,
-                      decoration: new InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Password',
                       ),
                       onChanged: (value) => password = value,
                     ),
                     TextField(
                       keyboardType: TextInputType.name,
-                      decoration: new InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Retype Password',
                       ),
                       onChanged: (value) => retypePassword = value,
