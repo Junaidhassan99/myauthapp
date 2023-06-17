@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1065033311142",
+    "project_id": "myauthapp-b291a",
+    "storage_bucket": "myauthapp-b291a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1065033311142:android:5c4a1ec64e3dd4c5b7e567",
+        "android_client_info": {
+          "package_name": "com.example.myauthapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1065033311142-87pmjl16bih6mh9di7op058t2qel50uu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDyyk0iEAvAbjsChGBYgkOfi9c0aI0JjlI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1065033311142-87pmjl16bih6mh9di7op058t2qel50uu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
