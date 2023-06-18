@@ -12,21 +12,86 @@ class SignupScreen extends StatefulWidget {
 
 class _SignupScreenState extends State<SignupScreen> {
   String userEmail = "";
-  String password = "";
+  String userPassword = "";
   String retypePassword = "";
 
+  bool isValidEmail = true;
+  bool isValidPassword = true;
+  bool isValidRetypePassword = true;
+
+  bool emailValidationChecker() {
+    return RegExp(
+            r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+        .hasMatch(userEmail);
+  }
+
+  bool passwordValidationChecker() {
+    return userPassword.length >= 8;
+  }
+
+  bool retypePasswordValidationChecker() {
+    return userPassword == retypePassword;
+  }
+
+  bool formValidator() {
+    if (emailValidationChecker()) {
+      setState(() {
+        isValidEmail = true;
+      });
+    } else {
+      setState(() {
+        isValidEmail = false;
+      });
+
+      return false;
+    }
+
+    if (passwordValidationChecker()) {
+      setState(() {
+        isValidPassword = true;
+      });
+    } else {
+      setState(() {
+        isValidPassword = false;
+      });
+
+      return false;
+    }
+
+    if (retypePasswordValidationChecker()) {
+      setState(() {
+        isValidRetypePassword = true;
+      });
+    } else {
+      setState(() {
+        isValidRetypePassword = false;
+      });
+
+      return false;
+    }
+
+    return true;
+  }
+
   void signupUser() async {
+    if (!formValidator()) {
+      return;
+    }
+
     try {
       UserCredential userCredential = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: userEmail, password: password);
+          .createUserWithEmailAndPassword(
+              email: userEmail, password: userPassword);
 
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => MovieListScreen(),
+          builder: (context) => const MovieListScreen(),
         ),
       );
     } catch (e) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(e.toString())));
       print(e);
     }
   }
@@ -59,22 +124,30 @@ class _SignupScreenState extends State<SignupScreen> {
                     ),
                     TextField(
                       keyboardType: TextInputType.emailAddress,
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                         labelText: 'User Email',
+                        errorText:
+                            isValidEmail ? null : 'An invalid email entered',
                       ),
                       onChanged: (value) => userEmail = value,
                     ),
                     TextField(
                       keyboardType: TextInputType.visiblePassword,
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                         labelText: 'Password',
+                        errorText: isValidPassword
+                            ? null
+                            : 'An invalid password entered',
                       ),
-                      onChanged: (value) => password = value,
+                      onChanged: (value) => userPassword = value,
                     ),
                     TextField(
                       keyboardType: TextInputType.name,
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                         labelText: 'Retype Password',
+                        errorText: isValidRetypePassword
+                            ? null
+                            : 'Passwords do not match',
                       ),
                       onChanged: (value) => retypePassword = value,
                     ),
@@ -87,7 +160,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         ),
                         onPressed: () {
                           print(userEmail);
-                          print(password);
+                          print(userPassword);
                           print(retypePassword);
 
                           signupUser();

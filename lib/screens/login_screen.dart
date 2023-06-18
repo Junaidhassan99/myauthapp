@@ -13,12 +13,57 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   String userEmail = "";
-  String password = "";
+  String userPassword = "";
+
+  bool isValidEmail = true;
+  bool isValidPassword = true;
+
+  bool emailValidationChecker() {
+    return RegExp(
+            r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+        .hasMatch(userEmail);
+  }
+
+  bool passwordValidationChecker() {
+    return userPassword.length >= 8;
+  }
+
+  bool formValidator() {
+    if (emailValidationChecker()) {
+      setState(() {
+        isValidEmail = true;
+      });
+    } else {
+      setState(() {
+        isValidEmail = false;
+      });
+
+      return false;
+    }
+
+    if (passwordValidationChecker()) {
+      setState(() {
+        isValidPassword = true;
+      });
+    } else {
+      setState(() {
+        isValidPassword = false;
+      });
+
+      return false;
+    }
+
+    return true;
+  }
 
   void loginUser() async {
+    if (!formValidator()) {
+      return;
+    }
+
     try {
       UserCredential userCredential = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: userEmail, password: password);
+          .signInWithEmailAndPassword(email: userEmail, password: userPassword);
 
       Navigator.pushReplacement(
         context,
@@ -27,6 +72,8 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       );
     } catch (e) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(e.toString())));
       print(e);
     }
   }
@@ -59,17 +106,22 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     TextField(
                       keyboardType: TextInputType.emailAddress,
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                         labelText: 'User Email',
+                        errorText:
+                            isValidEmail ? null : 'An invalid email entered',
                       ),
                       onChanged: (value) => userEmail = value,
                     ),
                     TextField(
                       keyboardType: TextInputType.visiblePassword,
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                         labelText: 'Password',
+                        errorText: isValidPassword
+                            ? null
+                            : 'An invalid password entered',
                       ),
-                      onChanged: (value) => password = value,
+                      onChanged: (value) => userPassword = value,
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 20),
@@ -80,7 +132,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         onPressed: () {
                           print(userEmail);
-                          print(password);
+                          print(userPassword);
 
                           loginUser();
                         },
