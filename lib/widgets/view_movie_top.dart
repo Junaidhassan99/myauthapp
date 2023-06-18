@@ -6,12 +6,12 @@ import '../utilities/api_utilities.dart';
 import 'get_tickets.dart';
 
 class ViewMovieTop extends StatelessWidget {
+  final Movie data;
+
   const ViewMovieTop({
     super.key,
     required this.data,
   });
-
-  final Movie data;
 
   @override
   Widget build(BuildContext context) {
@@ -26,10 +26,10 @@ class ViewMovieTop extends StatelessWidget {
               // width: 20,
               child: CachedNetworkImage(
                 fit: BoxFit.cover,
-                placeholder: (context, url) => Center(
+                placeholder: (context, url) => const Center(
                   child: CircularProgressIndicator(),
                 ),
-                errorWidget: (context, url, error) => Icon(Icons.error),
+                errorWidget: (context, url, error) => const Icon(Icons.error),
                 imageUrl: ApiUtilities.getNetworkImageCompletePath(
                     data.posterImagePath),
               ),

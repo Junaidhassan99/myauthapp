@@ -12,42 +12,42 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  String userEmail = "";
-  String userPassword = "";
+  String _userEmail = "";
+  String _userPassword = "";
 
-  bool isValidEmail = true;
-  bool isValidPassword = true;
+  bool _isValidEmail = true;
+  bool _isValidPassword = true;
 
-  bool emailValidationChecker() {
+  bool _emailValidationChecker() {
     return RegExp(
             r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
-        .hasMatch(userEmail);
+        .hasMatch(_userEmail);
   }
 
-  bool passwordValidationChecker() {
-    return userPassword.length >= 8;
+  bool _passwordValidationChecker() {
+    return _userPassword.length >= 8;
   }
 
-  bool formValidator() {
-    if (emailValidationChecker()) {
+  bool _formValidator() {
+    if (_emailValidationChecker()) {
       setState(() {
-        isValidEmail = true;
+        _isValidEmail = true;
       });
     } else {
       setState(() {
-        isValidEmail = false;
+        _isValidEmail = false;
       });
 
       return false;
     }
 
-    if (passwordValidationChecker()) {
+    if (_passwordValidationChecker()) {
       setState(() {
-        isValidPassword = true;
+        _isValidPassword = true;
       });
     } else {
       setState(() {
-        isValidPassword = false;
+        _isValidPassword = false;
       });
 
       return false;
@@ -56,14 +56,15 @@ class _LoginScreenState extends State<LoginScreen> {
     return true;
   }
 
-  void loginUser() async {
-    if (!formValidator()) {
+  void _loginUser() async {
+    if (!_formValidator()) {
       return;
     }
 
     try {
       UserCredential userCredential = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: userEmail, password: userPassword);
+          .signInWithEmailAndPassword(
+              email: _userEmail, password: _userPassword);
 
       Navigator.pushReplacement(
         context,
@@ -109,19 +110,19 @@ class _LoginScreenState extends State<LoginScreen> {
                       decoration: InputDecoration(
                         labelText: 'User Email',
                         errorText:
-                            isValidEmail ? null : 'An invalid email entered',
+                            _isValidEmail ? null : 'An invalid email entered',
                       ),
-                      onChanged: (value) => userEmail = value,
+                      onChanged: (value) => _userEmail = value,
                     ),
                     TextField(
                       keyboardType: TextInputType.visiblePassword,
                       decoration: InputDecoration(
                         labelText: 'Password',
-                        errorText: isValidPassword
+                        errorText: _isValidPassword
                             ? null
                             : 'An invalid password entered',
                       ),
-                      onChanged: (value) => userPassword = value,
+                      onChanged: (value) => _userPassword = value,
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 20),
@@ -131,14 +132,14 @@ class _LoginScreenState extends State<LoginScreen> {
                           onPrimary: Colors.white,
                         ),
                         onPressed: () {
-                          print(userEmail);
-                          print(userPassword);
+                          print(_userEmail);
+                          print(_userPassword);
 
-                          loginUser();
+                          _loginUser();
                         },
-                        child: Container(
+                        child: const SizedBox(
                           width: 100,
-                          child: const Center(
+                          child: Center(
                             child: Text('Login'),
                           ),
                         ),
@@ -149,7 +150,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => SignupScreen(),
+                            builder: (context) => const SignupScreen(),
                           ),
                         );
                       },

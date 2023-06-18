@@ -19,14 +19,14 @@ class MovieListScreen extends StatefulWidget {
 }
 
 class _MovieListScreenState extends State<MovieListScreen> {
-  void signoutUser() {
+  void _signoutUser() {
     try {
       FirebaseAuth.instance.signOut();
 
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => LoginScreen(),
+          builder: (context) => const LoginScreen(),
         ),
       );
     } catch (e) {
@@ -34,7 +34,7 @@ class _MovieListScreenState extends State<MovieListScreen> {
     }
   }
 
-  Future<List<dynamic>> getMoviesData() async {
+  Future<List<dynamic>> _getMoviesData() async {
     SharedPreferences shared_User = await SharedPreferences.getInstance();
 
     var moviesFetchJson;
@@ -70,7 +70,7 @@ class _MovieListScreenState extends State<MovieListScreen> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: getMoviesData(),
+        future: _getMoviesData(),
         builder: (ctx, snapshot) {
           return Scaffold(
             appBar: AppBar(
@@ -105,7 +105,7 @@ class _MovieListScreenState extends State<MovieListScreen> {
                 ),
                 IconButton(
                   onPressed: () {
-                    signoutUser();
+                    _signoutUser();
                   },
                   icon: const Icon(
                     Icons.logout,

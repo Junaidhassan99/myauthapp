@@ -6,6 +6,7 @@ import '../utilities/api_utilities.dart';
 
 class MovieListTile extends StatelessWidget {
   final Movie data;
+
   const MovieListTile({
     super.key,
     required this.data,
@@ -28,10 +29,10 @@ class MovieListTile extends StatelessWidget {
                 height: MediaQuery.of(context).size.width * 0.55,
                 child: CachedNetworkImage(
                   fit: BoxFit.cover,
-                  placeholder: (context, url) => Center(
+                  placeholder: (context, url) => const Center(
                     child: CircularProgressIndicator(),
                   ),
-                  errorWidget: (context, url, error) => Icon(Icons.error),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
                   imageUrl: ApiUtilities.getNetworkImageCompletePath(
                     data.backdropImagePath,
                   ),

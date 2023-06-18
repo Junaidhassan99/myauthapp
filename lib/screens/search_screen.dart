@@ -12,11 +12,11 @@ class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key, required this.dataList, required this.genre});
 
   @override
-  _SearchScreenState createState() => _SearchScreenState();
+  State<SearchScreen> createState() => _SearchScreenState();
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  final txt = TextEditingController();
+  final _txt = TextEditingController();
 
   String _searchQuery = '';
 
@@ -25,7 +25,7 @@ class _SearchScreenState extends State<SearchScreen> {
     return Scaffold(
       appBar: AppBar(
         title: TextField(
-          controller: txt,
+          controller: _txt,
           onChanged: (value) {
             setState(() {
               _searchQuery = value;
@@ -42,7 +42,7 @@ class _SearchScreenState extends State<SearchScreen> {
             child: IconButton(
               onPressed: () {
                 setState(() {
-                  txt.text = "";
+                  _txt.text = "";
                   _searchQuery = "";
                 });
               },

@@ -11,60 +11,60 @@ class SignupScreen extends StatefulWidget {
 }
 
 class _SignupScreenState extends State<SignupScreen> {
-  String userEmail = "";
-  String userPassword = "";
-  String retypePassword = "";
+  String _userEmail = "";
+  String _userPassword = "";
+  String _retypePassword = "";
 
-  bool isValidEmail = true;
-  bool isValidPassword = true;
-  bool isValidRetypePassword = true;
+  bool _isValidEmail = true;
+  bool _isValidPassword = true;
+  bool _isValidRetypePassword = true;
 
-  bool emailValidationChecker() {
+  bool _emailValidationChecker() {
     return RegExp(
             r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
-        .hasMatch(userEmail);
+        .hasMatch(_userEmail);
   }
 
-  bool passwordValidationChecker() {
-    return userPassword.length >= 8;
+  bool _passwordValidationChecker() {
+    return _userPassword.length >= 8;
   }
 
-  bool retypePasswordValidationChecker() {
-    return userPassword == retypePassword;
+  bool _retypePasswordValidationChecker() {
+    return _userPassword == _retypePassword;
   }
 
-  bool formValidator() {
-    if (emailValidationChecker()) {
+  bool _formValidator() {
+    if (_emailValidationChecker()) {
       setState(() {
-        isValidEmail = true;
+        _isValidEmail = true;
       });
     } else {
       setState(() {
-        isValidEmail = false;
+        _isValidEmail = false;
       });
 
       return false;
     }
 
-    if (passwordValidationChecker()) {
+    if (_passwordValidationChecker()) {
       setState(() {
-        isValidPassword = true;
+        _isValidPassword = true;
       });
     } else {
       setState(() {
-        isValidPassword = false;
+        _isValidPassword = false;
       });
 
       return false;
     }
 
-    if (retypePasswordValidationChecker()) {
+    if (_retypePasswordValidationChecker()) {
       setState(() {
-        isValidRetypePassword = true;
+        _isValidRetypePassword = true;
       });
     } else {
       setState(() {
-        isValidRetypePassword = false;
+        _isValidRetypePassword = false;
       });
 
       return false;
@@ -73,15 +73,15 @@ class _SignupScreenState extends State<SignupScreen> {
     return true;
   }
 
-  void signupUser() async {
-    if (!formValidator()) {
+  void _signupUser() async {
+    if (!_formValidator()) {
       return;
     }
 
     try {
       UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
-              email: userEmail, password: userPassword);
+              email: _userEmail, password: _userPassword);
 
       Navigator.pushReplacement(
         context,
@@ -127,29 +127,29 @@ class _SignupScreenState extends State<SignupScreen> {
                       decoration: InputDecoration(
                         labelText: 'User Email',
                         errorText:
-                            isValidEmail ? null : 'An invalid email entered',
+                            _isValidEmail ? null : 'An invalid email entered',
                       ),
-                      onChanged: (value) => userEmail = value,
+                      onChanged: (value) => _userEmail = value,
                     ),
                     TextField(
                       keyboardType: TextInputType.visiblePassword,
                       decoration: InputDecoration(
                         labelText: 'Password',
-                        errorText: isValidPassword
+                        errorText: _isValidPassword
                             ? null
                             : 'An invalid password entered',
                       ),
-                      onChanged: (value) => userPassword = value,
+                      onChanged: (value) => _userPassword = value,
                     ),
                     TextField(
                       keyboardType: TextInputType.name,
                       decoration: InputDecoration(
                         labelText: 'Retype Password',
-                        errorText: isValidRetypePassword
+                        errorText: _isValidRetypePassword
                             ? null
                             : 'Passwords do not match',
                       ),
-                      onChanged: (value) => retypePassword = value,
+                      onChanged: (value) => _retypePassword = value,
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 20),
@@ -159,16 +159,16 @@ class _SignupScreenState extends State<SignupScreen> {
                           onPrimary: Colors.white,
                         ),
                         onPressed: () {
-                          print(userEmail);
-                          print(userPassword);
-                          print(retypePassword);
+                          print(_userEmail);
+                          print(_userPassword);
+                          print(_retypePassword);
 
-                          signupUser();
+                          _signupUser();
                           // Navigator.of(context).pop();
                         },
-                        child: Container(
+                        child: const SizedBox(
                           width: 100,
-                          child: const Center(
+                          child: Center(
                             child: Text('Singup'),
                           ),
                         ),
@@ -179,7 +179,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LoginScreen(),
+                            builder: (context) => const LoginScreen(),
                           ),
                         );
                       },
