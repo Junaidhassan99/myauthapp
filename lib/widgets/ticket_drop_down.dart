@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class TicketDropDown extends StatefulWidget {
@@ -47,7 +48,8 @@ class _TicketDropDownState extends State<TicketDropDown> {
             Navigator.of(context).pop();
 
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text('You have selected seat: $_selectedSeatNumber')));
+                content: Text(
+                    'You have selected seat: $_selectedSeatNumber, by ${FirebaseAuth.instance.currentUser!.email}')));
           },
           child: const Text('OK'),
         ),

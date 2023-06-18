@@ -17,17 +17,18 @@ void main() async {
   );
   */
   await Firebase.initializeApp();
-  runApp(const CowlarApp());
+  runApp(const CinepaxApp());
 }
 
-class CowlarApp extends StatelessWidget {
-  const CowlarApp({super.key});
+class CinepaxApp extends StatelessWidget {
+  const CinepaxApp({super.key});
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Cowlar App',
+      debugShowCheckedModeBanner: false,
+      title: 'Cinepax App',
       theme: ThemeData(
         primaryColor: Colors.blue[900],
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue.shade900),
