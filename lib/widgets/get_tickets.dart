@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myauthapp/widgets/ticket_drop_down.dart';
 
 class GetTickets extends StatefulWidget {
   const GetTickets({
@@ -10,51 +11,11 @@ class GetTickets extends StatefulWidget {
 }
 
 class _GetTicketsState extends State<GetTickets> {
-  int _selectedSeatNumber = 1;
-
   void _showSeatSelectionDialog(BuildContext context) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          actionsAlignment: MainAxisAlignment.spaceEvenly,
-          title: const Text('Select Seat Number'),
-          content: Center(
-            heightFactor: 0.7,
-            child: DropdownButton<int>(
-              value: _selectedSeatNumber,
-              onChanged: (int? newValue) {
-                setState(() {
-                  _selectedSeatNumber = newValue!;
-                  print(_selectedSeatNumber);
-                });
-              },
-              items: List.generate(
-                100,
-                (index) => DropdownMenuItem<int>(
-                  value: index + 1,
-                  child: Text('${index + 1}'),
-                ),
-              ),
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () {
-                // do something with the selected seat number
-
-                Navigator.of(context).pop();
-              },
-              child: const Text('OK'),
-            ),
-          ],
-        );
+        return const TicketDropDown();
       },
     );
   }
@@ -89,3 +50,4 @@ class _GetTicketsState extends State<GetTickets> {
     );
   }
 }
+

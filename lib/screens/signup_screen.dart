@@ -142,7 +142,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       onChanged: (value) => _userPassword = value,
                     ),
                     TextField(
-                      keyboardType: TextInputType.name,
+                      keyboardType: TextInputType.visiblePassword,
                       decoration: InputDecoration(
                         labelText: 'Retype Password',
                         errorText: _isValidRetypePassword
